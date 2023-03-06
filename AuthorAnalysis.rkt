@@ -3,11 +3,12 @@
 
 
 (define (process-file filename)
-  (regexp-split #px" "
-   (remove-characters
-    (first
-     (read-file filename))
-    '("\n" "\\?" "," "\\." "\"" "!" "-" ":" ";"))))
+  (regexp-split #px" +"
+   (string-upcase
+    (remove-characters
+     (first
+      (read-file filename))
+     '("\n" "\\?" "," "\\." "\"" "!" "-" ":" ";")))))
 
 
 (define (read-file filename)
@@ -16,13 +17,10 @@
                        #:mode 'text) #:line-mode 'return))
 
 
-; TODO figure out how to make this recursive
 (define (remove-characters file chars)
   (if (empty? chars)
       file
       (remove-characters (regexp-replace* (regexp (first chars)) file " ") (rest chars))))
-
-(define (capitalize file))
   
 
 ; Opening all input files
